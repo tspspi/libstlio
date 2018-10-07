@@ -30,7 +30,7 @@ and destructions - and uses the libc's fopen, fgetc, fseek and fclose
 functions to access the file.
 
 ```
-tatic enum stlioError callbackError(
+static enum stlioError callbackError(
 	enum stlioError eCode,
 	unsigned long int dwLineNumber,
 	unsigned long int dwLineChar,
