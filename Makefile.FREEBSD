@@ -5,6 +5,11 @@ DYNLIBSUFFIX=.so
 
 CC=clang -Wall -pedantic -ansi -std=c99 -lm
 CCLIB=clang -fPIC -Wall -pedantic -ansi -std=c99 -lm
+CP=cp
+MKDIR=mkdir -p
 ARCMD=ar rcs
 SHAREDCC=clang -Wall -shared
 MAKE=gmake
+MKSTAGEARCHIVE=tar -czf packages/libstlio-amd64-freebsd.tar.gz -C stage .
+RMDIR=rm -rf
+RMFILE=rm

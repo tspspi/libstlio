@@ -30,6 +30,26 @@ dynamicLib:  $(OBJFILES)
 
 	$(SHAREDCC) $(OPTIONS) -o bin/libstlio$(DYNLIBSUFFIX) $(OBJFILES)
 
+package: staticLib dynamicLib tests tools
+
+	# Create staging hierarchy
+	$(MKDIR) stage/lib
+	$(MKDIR) stage/bin
+
+	$(MKDIR) packages
+
+	# Copy files
+	$(CP) bin/libstlio$(SLIBSUFFIX) stage/lib/libstlio$(SLIBSUFFIX)
+	$(CP) bin/libstlio$(DYNLIBSUFFIX) stage/lib/libstlio$(DYNLIBSUFFIX)
+	$(CP) bin/tools/stl2bin$(EXESUFFIX) stage/bin/stl2bin$(EXESUFFIX)
+	$(CP) bin/tools/stl2ascii$(EXESUFFIX) stage/bin/stl2ascii$(EXESUFFIX)
+
+	# Create archive
+	$(MKSTAGEARCHIVE)
+
+	# Cleanup
+	$(RMDIR) stage
+
 tmp/stlio$(OBJSUFFIX): src/stlio.c include/serdeshelper.h include/stlio.h
 
 	$(CCLIB) $(OPTIONS) -c -o tmp/stlio$(OBJSUFFIX) src/stlio.c
@@ -47,7 +67,13 @@ tools:
 	@echo Building tools
 	- @$(MAKE) -C ./tools
 
+clean:
 
-.PHONY: staticLib dynamicLib tests tools
+	- @$(RMFILE) bin/test*
+	- @$(RMFILE) bin/lib*
+	- @$(RMFILE) bin/tools/stl*
+	- @$(RMFILE) tmp/*$(OBJSUFFIX)
+
+.PHONY: staticLib dynamicLib tests tools clean
 
 endif
